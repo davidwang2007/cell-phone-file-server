@@ -1,0 +1,20 @@
+extends ./layout.jade
+block content
+  h3 下载文件-目录列表
+  .row
+    ul.list-group.col-sm-3
+        li.list-group-item
+          a(href="/upload") 已经上传
+        each dir in dirs
+          li.list-group-item
+            a(href=dir.name)= dir.name
+  h3 上传文件
+  form.form-horizontal.well(role="form",action="/",enctype="multipart/form-data",method="post")
+    .form-group
+      label.control-label.col-sm-2 选择文件
+      .col-sm-3
+        input.form-control#file-trigger(type="text",autocomplete="off")
+        input.hide#file(type="file",multiple,name="file")
+    .form-group
+      .col-sm-3.col-sm-offset-2
+        button.btn.btn-primary(type="submit") 上传
