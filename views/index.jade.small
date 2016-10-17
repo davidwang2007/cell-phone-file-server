@@ -1,0 +1,10 @@
+extends ./layout.jade
+block content
+  h3 下载文件-目录列表
+  .row
+    ul.list-group.col-sm-3
+        li.list-group-item
+          a(href="javascript:void(0);") Dir
+        each dir in dirs
+          li.list-group-item
+            a(href=dir.name)= dir.name

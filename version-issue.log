@@ -1,0 +1,16 @@
+node_modules/connect/node_modules/formidable/lib/multipart_parser.js
+
+MultipartParser.prototype.initWithBoundary = function(str) {
+  this.boundary = new Buffer(str.length+4);
+  //because of the Buffer.write deprecation, i change it by www
+  this.boundary.write('\r\n--', 0, 'ascii');
+  this.boundary.write(str, 4, 'ascii');
+  this.lookbehind = new Buffer(this.boundary.length+8);
+  this.state = S.START;
+
+  this.boundaryChars = {};
+  for (var i = 0; i < this.boundary.length; i++) {
+    this.boundaryChars[this.boundary[i]] = true;
+  }
+};
+

@@ -12,11 +12,11 @@ var express = require('express'),
 var app = express();
 process.env.NODE_ENV = process.env.NODE_ENV || 'production';
 var dirs = [];
-var upload_store_dir = 'G:/temp';
+var upload_store_dir = 'D:/share';
 // ele -> {name: 'xxx',path:'/a/b'}
 dirs.push({
-	name: '/home',
-	path: 'G:/share50'
+	name: '/share',
+	path: 'D:/share'
 });
 
 app.set('views',__dirname+'/views');
@@ -31,13 +31,27 @@ app.get('/',function(req,res,next){
 	res.render('index',{dirs:dirs});
 });
 app.post('/',function(req,res,next){
-    req.form.on('part',function(part){
-        console.log('use try to upload %s %s',part.name,part.filename);
-        part.pipe(fs.createWriteStream(upload_store_dir+'/'+part.filename));
+	req.form.on('fileBegin',function(file,part){
+		part.path = upload_store_dir+'/'+part.name;
+	});
+    req.form.on('file',function(file,part){
+		//console.log(part);
+        //console.log('use try to upload %s %s',part.name,part.path);
+		/*
+		fs.rename(part.path,upload_store_dir+'/'+part.name,function(err){
+			if(err) return console.error(err);
+			console.log(part.name,'saved');
+		});
+		*/
+        //part.pipe(fs.createWriteStream(upload_store_dir+'/'+part.name));
     });
-    res.redirect('/');
+	req.form.on('end',function(){
+		console.log('receive end event');
+		res.redirect('/');
+	});
     /*
 	var file = req.files.file;
+	console.log(req.files,req.form);
 	if(Array.isArray(file))
 		file.forEach(function(f){
 			storeFile(f);		
