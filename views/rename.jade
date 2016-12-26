@@ -1,4 +1,17 @@
 extends ./layout.jade
+block head
+    style.
+      a.highlight {
+        background: #ffff4f;
+        border-color: #E9DC51;
+        text-decoration:none;
+        font:12px/20px "Consolas Sans-serif";
+      }
 block content
-  h3 该文件名{{name}}已存在, 请更改文件名后重新上传
-  a(href="/") 确定
+  h4 以下文件已存在，请更换文件名后重新上传
+  ul
+    each name in names
+      li
+        a.highlight(href="javascript:void(0);",title="Please change name")= name
+    br
+  a(href="/") 返回
